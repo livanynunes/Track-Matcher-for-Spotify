@@ -1,11 +1,18 @@
 import React from "react";
-import { Grid, Paper, Typography, TextField, Button } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Box,
+} from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 const Home = () => {
   return (
-    <Grid container>
-      <Paper>
-        <Grid container>
+    <Box display="flex" justifyContent="center">
+      <Paper style={{ maxWidth: 900 }}>
+        <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography variant="h1">Track Matcher for Spotify</Typography>
             <Typography variant="h3">This is a page with text</Typography>
@@ -31,7 +38,7 @@ const Home = () => {
           </Grid>
         </Grid>
       </Paper>
-    </Grid>
+    </Box>
   );
 };
 

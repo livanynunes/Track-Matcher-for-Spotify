@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "Poppins-Bold";
+  src: local("Poppins-Bold"),
+    ur("./assets/fonts/Poppins-Bold.ttf") format("truetype");
+}
+
+.body {
+  background-color: #ffeadb;
+}
