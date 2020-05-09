@@ -10,11 +10,19 @@ import {
 import { Add } from "@material-ui/icons";
 const Home = () => {
   return (
-    <Box display="flex" justifyContent="center">
-      <Paper style={{ maxWidth: 900 }}>
+    <Box
+      component="div"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      style={{ height: "100%" }}
+    >
+      <Paper style={{ padding: 20, maxWidth: 700 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Typography variant="h1">Track Matcher for Spotify</Typography>
+            <Typography variant="h1" color="primary">
+              Track Matcher for Spotify
+            </Typography>
             <Typography variant="h3">This is a page with text</Typography>
           </Grid>
           <Grid item xs={12}>
