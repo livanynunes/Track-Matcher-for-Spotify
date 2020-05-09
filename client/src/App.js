@@ -1,11 +1,18 @@
 import React from "react";
 import { Home } from "./pages/Home";
+import "./App.css";
+import { ThemeProvider } from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import theme from "./theme";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header"></header>
-      <Home />
+      <header></header>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Home />
+      </ThemeProvider>
     </div>
   );
 }
