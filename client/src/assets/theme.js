@@ -1,5 +1,5 @@
 import { createMuiTheme } from "@material-ui/core/styles";
-import PoppinsRegular from "./assets/fonts/Poppins/Poppins-Bold.ttf";
+import PoppinsRegular from "./fonts/Poppins/Poppins-Bold.ttf";
 const Poppins = {
   fontFamily: "Poppins-Regular",
   fontStyle: "normal",
@@ -29,7 +29,7 @@ const theme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: ["Poppins"].join(","),
+    fontFamily: ["Poppins", "sans-serif"].join(","),
     button: {
       textTransform: "none",
     },
