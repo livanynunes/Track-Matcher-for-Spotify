@@ -21,8 +21,8 @@ const theme = createMuiTheme({
     background: {
       default: "#ffeadb",
     },
-    text: {
-      secondary: "#EC625F", //rosa
+    default: {
+      main: "#C0D9C9", //azul
     },
     info: {
       main: "#C0D9C9",
@@ -32,6 +32,13 @@ const theme = createMuiTheme({
     fontFamily: ["Poppins", "sans-serif"].join(","),
     button: {
       textTransform: "none",
+    },
+    h4: {
+      // title bold
+      fontWeight: 800,
+    },
+    body1: {
+      fontWeight: 800,
     },
   },
   overrides: {
