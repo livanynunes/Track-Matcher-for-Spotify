@@ -98,7 +98,11 @@ const Home = () => {
             {isLoggedIn ? (
               <Fragment>
                 <Grid item xs={12}>
-                  <Typography variant="body1" color="secondary">
+                  <Typography
+                    variant="body1"
+                    paragraph={true}
+                    color="secondary"
+                  >
                     Add your friends here:
                   </Typography>
                 </Grid>
