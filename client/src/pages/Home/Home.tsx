@@ -14,7 +14,6 @@ const Home = () => {
   const [inputFields, setInputFields] = useState([
     { value: "", selected: false },
   ]);
-  const [isSelected, setIsSelected] = useState(true);
 
   const handleAddFields = () => {
     const values = [...inputFields];
@@ -86,7 +85,11 @@ const Home = () => {
                 so that it can create the playlist. You can find an user’s URI
                 through the sharing options on their profile page.
               </Typography>
-              <Typography variant="subtitle2" color="secondary">
+              <Typography
+                variant="subtitle2"
+                paragraph={true}
+                color="secondary"
+              >
                 When matching with multiple users, you can define the minimum
                 number of occurences between them (e.g. only 2 occurences of the
                 same song needed between me and 4 friends).
@@ -102,7 +105,7 @@ const Home = () => {
 
                 {inputFields.map((inputFields, index) => (
                   <Fragment key={`${inputFields}~${index}`}>
-                    <Grid container>
+                    <Grid container spacing={2}>
                       <Grid item xs={12}>
                         <TextField
                           fullWidth
@@ -141,21 +144,23 @@ const Home = () => {
                 ))}
 
                 <Grid item xs={12}>
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    color="inherit"
-                    size="small"
-                    endIcon={<Add />}
-                    onClick={() => {
-                      handleAddFields();
-                    }}
-                  >
-                    Add friend
-                  </Button>
+                  <Box marginTop={2}>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      color="inherit"
+                      size="small"
+                      endIcon={<Add />}
+                      onClick={() => {
+                        handleAddFields();
+                      }}
+                    >
+                      Add friend
+                    </Button>
+                  </Box>
                 </Grid>
                 <Grid item xs={12}>
-                  <Box display="flex" justifyContent="flex-end">
+                  <Box display="flex" justifyContent="flex-end" marginTop={2}>
                     <Button
                       variant="contained"
                       color="secondary"
