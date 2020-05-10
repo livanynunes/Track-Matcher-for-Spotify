@@ -13,6 +13,8 @@ var cors = require("cors");
 var querystring = require("querystring");
 var cookieParser = require("cookie-parser");
 
+var matching = require("./Matching.js");
+
 var client_id = "1baad1a07930418ea6605b19788c1436"; // Your client id
 var client_secret = "24f2102e552e49348d13d263c8e4fb27"; // Your secret
 var redirect_uri = "http://localhost:8888/callback"; // Your redirect uri
@@ -47,7 +49,7 @@ app.get("/login", function (req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = "playlist-modify-public playlist-modify-private";
+  var scope = "ugc-image-upload playlist-modify-public playlist-modify-private";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -118,20 +120,12 @@ app.get("/callback", function (req, res) {
   }
 });
 
-app.get("/match", function (req, res) {
-  var access_token = req.query.access_token;
-  var query = {
-    url: "https://api.spotify.com/v1/me/playlists",
-    headers: { Authorization: "Bearer " + access_token },
-    json: true,
-  };
-
-  // use the access token to access the Spotify Web API
-  request.get(query, function (error, response, body) {
-    if (!error && response.statusCode === 200) {
-      res.send(body.items[0].id);
-    }
-  });
+app.get("/match", async function (req, res) {
+  var accessToken = req.query.access_token;
+  var usersToMatch = ["12183156809"];
+  // var usersToMatch = ["12183156809", "mooosj", "12158049659"];
+  var playlistId = await matching.match(accessToken, usersToMatch);
+  res.send(playlistId);
 });
 
 console.log("Listening on 8888");
