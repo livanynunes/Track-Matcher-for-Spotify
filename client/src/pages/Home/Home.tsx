@@ -8,15 +8,17 @@ import {
   Box,
   IconButton,
 } from "@material-ui/core";
-import { Add, RemoveCircle } from "@material-ui/icons";
+import { Add, RemoveCircle, Delete } from "@material-ui/icons";
 const Home = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [inputFields, setInputFields] = useState([{ value: "" }]);
+  const [inputFields, setInputFields] = useState([
+    { value: "", selected: false },
+  ]);
 
   const handleAddFields = () => {
     const values = [...inputFields];
 
-    values.push({ value: "" });
+    values.push({ value: "", selected: false });
 
     setInputFields(values);
   };
@@ -25,7 +27,6 @@ const Home = () => {
     const values = [...inputFields];
 
     values.splice(index, 1);
-
     setInputFields(values);
   };
 
@@ -39,6 +40,19 @@ const Home = () => {
       values[index].value = event.target.value;
     }
 
+    // event.target.onb
+    setInputFields(values);
+  };
+
+  const showRemoveButton = (index: any) => {
+    const values = [...inputFields];
+    values[index].selected = true;
+    setInputFields(values);
+  };
+
+  const hideRemoveButton = (index: any) => {
+    const values = [...inputFields];
+    values[index].selected = false;
     setInputFields(values);
   };
 
@@ -71,7 +85,11 @@ const Home = () => {
                 so that it can create the playlist. You can find an user’s URI
                 through the sharing options on their profile page.
               </Typography>
-              <Typography variant="subtitle2" color="secondary">
+              <Typography
+                variant="subtitle2"
+                paragraph={true}
+                color="secondary"
+              >
                 When matching with multiple users, you can define the minimum
                 number of occurences between them (e.g. only 2 occurences of the
                 same song needed between me and 4 friends).
@@ -80,15 +98,19 @@ const Home = () => {
             {isLoggedIn ? (
               <Fragment>
                 <Grid item xs={12}>
-                  <Typography variant="body1" color="secondary">
+                  <Typography
+                    variant="body1"
+                    paragraph={true}
+                    color="secondary"
+                  >
                     Add your friends here:
                   </Typography>
                 </Grid>
 
                 {inputFields.map((inputFields, index) => (
                   <Fragment key={`${inputFields}~${index}`}>
-                    <Grid container>
-                      <Grid item xs={11}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
                         <TextField
                           fullWidth
                           id="friendUri"
@@ -99,34 +121,50 @@ const Home = () => {
                           variant="outlined"
                           color="primary"
                           size="small"
+                          onFocus={() => showRemoveButton(index)}
+                          onBlur={() => hideRemoveButton(index)}
                           onChange={(event) => handleInputChange(index, event)}
+                          InputProps={
+                            inputFields.selected
+                              ? {
+                                  endAdornment: (
+                                    <IconButton
+                                      onMouseDown={() => {
+                                        handleRemoveField(index);
+                                      }}
+                                    >
+                                      <Delete fontSize="small" />
+                                    </IconButton>
+                                  ),
+                                }
+                              : {
+                                  endAdornment: <></>,
+                                }
+                          }
                         />
-                      </Grid>
-                      <Grid item xs={1}>
-                        <IconButton onClick={() => handleRemoveField(index)}>
-                          <RemoveCircle fontSize="small" />
-                        </IconButton>
                       </Grid>
                     </Grid>
                   </Fragment>
                 ))}
 
                 <Grid item xs={12}>
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    color="inherit"
-                    size="small"
-                    endIcon={<Add />}
-                    onClick={() => {
-                      handleAddFields();
-                    }}
-                  >
-                    Add friend
-                  </Button>
+                  <Box marginTop={2}>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      color="inherit"
+                      size="small"
+                      endIcon={<Add />}
+                      onClick={() => {
+                        handleAddFields();
+                      }}
+                    >
+                      Add friend
+                    </Button>
+                  </Box>
                 </Grid>
                 <Grid item xs={12}>
-                  <Box display="flex" justifyContent="flex-end">
+                  <Box display="flex" justifyContent="flex-end" marginTop={2}>
                     <Button
                       variant="contained"
                       color="secondary"
