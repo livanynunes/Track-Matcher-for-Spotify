@@ -8,15 +8,18 @@ import {
   Box,
   IconButton,
 } from "@material-ui/core";
-import { Add, RemoveCircle } from "@material-ui/icons";
+import { Add, RemoveCircle, Delete } from "@material-ui/icons";
 const Home = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [inputFields, setInputFields] = useState([{ value: "" }]);
+  const [inputFields, setInputFields] = useState([
+    { value: "", selected: false },
+  ]);
+  const [isSelected, setIsSelected] = useState(true);
 
   const handleAddFields = () => {
     const values = [...inputFields];
 
-    values.push({ value: "" });
+    values.push({ value: "", selected: false });
 
     setInputFields(values);
   };
@@ -25,7 +28,6 @@ const Home = () => {
     const values = [...inputFields];
 
     values.splice(index, 1);
-
     setInputFields(values);
   };
 
@@ -39,6 +41,19 @@ const Home = () => {
       values[index].value = event.target.value;
     }
 
+    // event.target.onb
+    setInputFields(values);
+  };
+
+  const showRemoveButton = (index: any) => {
+    const values = [...inputFields];
+    values[index].selected = true;
+    setInputFields(values);
+  };
+
+  const hideRemoveButton = (index: any) => {
+    const values = [...inputFields];
+    values[index].selected = false;
     setInputFields(values);
   };
 
@@ -88,7 +103,7 @@ const Home = () => {
                 {inputFields.map((inputFields, index) => (
                   <Fragment key={`${inputFields}~${index}`}>
                     <Grid container>
-                      <Grid item xs={11}>
+                      <Grid item xs={12}>
                         <TextField
                           fullWidth
                           id="friendUri"
@@ -99,13 +114,27 @@ const Home = () => {
                           variant="outlined"
                           color="primary"
                           size="small"
+                          onFocus={() => showRemoveButton(index)}
+                          onBlur={() => hideRemoveButton(index)}
                           onChange={(event) => handleInputChange(index, event)}
+                          InputProps={
+                            inputFields.selected
+                              ? {
+                                  endAdornment: (
+                                    <IconButton
+                                      onMouseDown={() => {
+                                        handleRemoveField(index);
+                                      }}
+                                    >
+                                      <Delete fontSize="small" />
+                                    </IconButton>
+                                  ),
+                                }
+                              : {
+                                  endAdornment: <></>,
+                                }
+                          }
                         />
-                      </Grid>
-                      <Grid item xs={1}>
-                        <IconButton onClick={() => handleRemoveField(index)}>
-                          <RemoveCircle fontSize="small" />
-                        </IconButton>
                       </Grid>
                     </Grid>
                   </Fragment>
