@@ -2,7 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-
+import "./assets/fonts/Poppins/Poppins-Bold.ttf";
+import "./assets/fonts/Poppins/Poppins-ExtraBold.ttf";
+import "./assets/fonts/Poppins/Poppins-Regular.ttf";
+import "./assets/fonts/Poppins/Poppins-SemiBold.ttf";
+import "./assets/fonts/Poppins/Poppins-SemiBoldItalic.ttf";
+import "./index.css";
 ReactDOM.render(
   <React.StrictMode>
     <App />
