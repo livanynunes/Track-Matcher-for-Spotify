@@ -49,7 +49,7 @@ app.get("/login", function (req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = "playlist-modify-public playlist-modify-private";
+  var scope = "ugc-image-upload playlist-modify-public playlist-modify-private";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -123,10 +123,9 @@ app.get("/callback", function (req, res) {
 app.get("/match", async function (req, res) {
   var accessToken = req.query.access_token;
   var usersToMatch = ["12183156809"];
-  // var usersToMatch = ["mooosj"];
-  var playlistUrl = await matching.url(accessToken, usersToMatch);
-
-  res.send(playlistUrl);
+  // var usersToMatch = ["12183156809", "mooosj", "12158049659"];
+  var playlistId = await matching.match(accessToken, usersToMatch);
+  res.send(playlistId);
 });
 
 console.log("Listening on 8888");
