@@ -1,4 +1,11 @@
 class Matching {
+  accessToken: string;
+  minimumOccurences: number;
+  rp: any;
+  myId: any;
+  usersToMatch: any;
+  tracks: any[];
+  playlistId: string;
   async init(accessToken, usersToMatch) {
     this.minimumOccurences = 2;
     this.rp = require("request-promise");
