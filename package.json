@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "history": "^4.10.1",
+    "prop-types": "^15.7.2"
+  }
+}

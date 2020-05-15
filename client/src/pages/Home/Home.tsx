@@ -114,7 +114,9 @@ const Home = () => {
                         size="small"
                         onFocus={() => showRemoveButton(index)}
                         onBlur={() => hideRemoveButton(index)}
-                        onChange={(event) => handleInputChange(index, event)}
+                        onChange={(event: any) =>
+                          handleInputChange(index, event)
+                        }
                         InputProps={
                           inputFields.selected
                             ? {

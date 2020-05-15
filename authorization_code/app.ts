@@ -4,7 +4,7 @@ var cors = require("cors");
 var querystring = require("querystring");
 var cookieParser = require("cookie-parser");
 
-var matching = require("./Matching.js");
+var matching = require("./Matching.ts");
 
 var client_id = "1baad1a07930418ea6605b19788c1436"; // Your client id
 var client_secret = "24f2102e552e49348d13d263c8e4fb27"; // Your secret
@@ -47,6 +47,7 @@ app.get("/login", function (req, res) {
         response_type: "code",
         client_id: client_id,
         scope: scope,
+
         redirect_uri: redirect_uri,
         state: state,
       })
