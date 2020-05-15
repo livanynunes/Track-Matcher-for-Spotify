@@ -86,102 +86,82 @@ const Home = () => {
               same song needed between me and 4 friends).
             </Typography>
           </Grid>
-          {isLoggedIn ? (
-            <form onSubmit={handleSubmit}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Typography
-                    variant="body1"
-                    paragraph={true}
-                    color="secondary"
-                  >
-                    Add your friends here:
-                  </Typography>
-                </Grid>
-
-                {inputFields.map((inputFields, index) => (
-                  <Fragment key={`${inputFields}~${index}`}>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        id="friendUri"
-                        name="friendUri"
-                        value={inputFields.value}
-                        label="Spotify URI"
-                        placeholder="e.g. spotify:user:0394820913"
-                        variant="outlined"
-                        color="primary"
-                        size="small"
-                        onFocus={() => showRemoveButton(index)}
-                        onBlur={() => hideRemoveButton(index)}
-                        onChange={(event: any) =>
-                          handleInputChange(index, event)
-                        }
-                        InputProps={
-                          inputFields.selected
-                            ? {
-                                endAdornment: (
-                                  <IconButton
-                                    onMouseDown={() => {
-                                      handleRemoveField(index);
-                                    }}
-                                  >
-                                    <Delete fontSize="small" />
-                                  </IconButton>
-                                ),
-                              }
-                            : {
-                                endAdornment: <></>,
-                              }
-                        }
-                      />
-                    </Grid>
-                  </Fragment>
-                ))}
-
-                <Grid item xs={12}>
-                  <Box>
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      color="inherit"
-                      size="small"
-                      endIcon={<Add />}
-                      onClick={() => {
-                        handleAddFields();
-                      }}
-                    >
-                      Add friend
-                    </Button>
-                  </Box>
-                </Grid>
-                <Grid item xs={12}>
-                  <Box display="flex" justifyContent="flex-end" marginTop={2}>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      type="submit"
-                      onSubmit={handleSubmit}
-                    >
-                      Match!
-                    </Button>
-                  </Box>
-                </Grid>
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="body1" paragraph={true} color="secondary">
+                  Add your friends here:
+                </Typography>
               </Grid>
-            </form>
-          ) : (
-            <Grid item xs={12}>
-              <Box display="flex" justifyContent="center">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  href="http://localhost:8888/login"
-                >
-                  Login in Spotify
-                </Button>
-              </Box>
+
+              {inputFields.map((inputFields, index) => (
+                <Fragment key={`${inputFields}~${index}`}>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      id="friendUri"
+                      name="friendUri"
+                      value={inputFields.value}
+                      label="Spotify URI"
+                      placeholder="e.g. spotify:user:0394820913"
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      onFocus={() => showRemoveButton(index)}
+                      onBlur={() => hideRemoveButton(index)}
+                      onChange={(event: any) => handleInputChange(index, event)}
+                      InputProps={
+                        inputFields.selected
+                          ? {
+                              endAdornment: (
+                                <IconButton
+                                  onMouseDown={() => {
+                                    handleRemoveField(index);
+                                  }}
+                                >
+                                  <Delete fontSize="small" />
+                                </IconButton>
+                              ),
+                            }
+                          : {
+                              endAdornment: <></>,
+                            }
+                      }
+                    />
+                  </Grid>
+                </Fragment>
+              ))}
+
+              <Grid item xs={12}>
+                <Box>
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    color="inherit"
+                    size="small"
+                    endIcon={<Add />}
+                    onClick={() => {
+                      handleAddFields();
+                    }}
+                  >
+                    Add friend
+                  </Button>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box display="flex" justifyContent="flex-end" marginTop={2}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    type="submit"
+                    onSubmit={handleSubmit}
+                  >
+                    Match!
+                  </Button>
+                </Box>
+              </Grid>
             </Grid>
-          )}
+          </form>
         </Grid>
       </Paper>
     </Box>

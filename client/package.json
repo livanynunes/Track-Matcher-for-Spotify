@@ -14,7 +14,9 @@
     "react-scripts": "3.4.1",
     "spotify-web-api-js": "^1.4.0",
     "styled-components": "^5.1.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "history": "^4.10.1",
+    "prop-types": "^15.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
