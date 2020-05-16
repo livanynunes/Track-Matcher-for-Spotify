@@ -26,6 +26,14 @@ var generateRandomString = function (length) {
   return text;
 };
 
+function profileUriToId(uris) {
+  var ids = [];
+  for (const item of uris) {
+    ids.push(item.split("spotify:user:")[1]);
+  }
+  return ids;
+}
+
 var stateKey = "spotify_auth_state";
 
 var app = express();
@@ -82,7 +90,7 @@ app.get("/callback", function (req, res) {
       headers: {
         Authorization:
           "Basic " +
-          new Buffer(client_id + ":" + client_secret).toString("base64"),
+          new Buffer.from(client_id + ":" + client_secret).toString("base64"),
       },
       json: true,
     };
@@ -114,9 +122,14 @@ app.get("/callback", function (req, res) {
 
 app.get("/match", async function (req, res) {
   var accessToken = req.query.access_token;
-  var usersToMatch = ["12183156809"];
-  // var usersToMatch = ["12183156809", "mooosj", "12158049659"];
-  var playlistId = await matching.match(accessToken, usersToMatch);
+  var usersToMatch = ["spotify:user:12183156809", "spotify:user:simoneouro"];
+  var minimumOccurences = 2;
+  profileUriToId(usersToMatch);
+  var playlistId = await matching.match(
+    accessToken,
+    usersToMatch,
+    minimumOccurences
+  );
   res.send(playlistId);
 });
 
