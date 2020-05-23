@@ -1,3 +1,4 @@
+import { Home } from "./../client/src/pages/Home";
 var express = require("express"); // Express web server framework
 var request = require("request"); // "Request" library
 var cors = require("cors");
@@ -121,16 +122,24 @@ app.get("/callback", function (req, res) {
 });
 
 app.get("/match", async function (req, res) {
-  var accessToken = req.query.access_token;
-  var usersToMatch = ["spotify:user:12183156809", "spotify:user:simoneouro"];
-  var minimumOccurences = 2;
-  profileUriToId(usersToMatch);
-  var playlistId = await matching.match(
-    accessToken,
-    usersToMatch,
-    minimumOccurences
-  );
-  res.send(playlistId);
+  try {
+    var accessToken = req.query.access_token;
+    let friends = req.query.friend;
+    console.log(friends);
+    console.log(accessToken);
+    var usersToMatch = friends;
+    var minimumOccurences = 2;
+    usersToMatch = profileUriToId(usersToMatch);
+    console.log(usersToMatch);
+    var playlistId = await matching.match(
+      accessToken,
+      usersToMatch,
+      minimumOccurences
+    );
+    res.send(playlistId);
+  } catch (err) {
+    console.log("Ocorreu um erro ao dar match!");
+  }
 });
 
 console.log("Listening on 8888");
