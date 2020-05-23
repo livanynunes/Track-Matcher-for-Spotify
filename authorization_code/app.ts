@@ -136,7 +136,7 @@ app.get("/match", async function (req, res) {
       usersToMatch,
       minimumOccurences
     );
-    res.send(playlistId);
+    res.redirect(`http://localhost:3000/final`);
   } catch (err) {
     console.log("Ocorreu um erro ao dar match!");
   }
