@@ -9,7 +9,20 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { Add, Delete, ExitToApp } from "@material-ui/icons";
-const Home = () => {
+
+function getUrlParams(search: string): any {
+  let hashes = search.slice(search.indexOf("?") + 1).split("&");
+  return hashes.reduce((params, hash) => {
+    let [key, val] = hash.split("=");
+    return Object.assign(params, { [key]: decodeURIComponent(val) });
+  }, {});
+}
+
+const Home = (props: any) => {
+  const { location } = props;
+  const params = getUrlParams(location.search);
+  const token = params.access_token;
+
   const [inputFields, setInputFields] = useState([
     { value: "", selected: false },
   ]);
@@ -18,7 +31,6 @@ const Home = () => {
     const values = [...inputFields];
 
     values.push({ value: "", selected: false });
-
     setInputFields(values);
   };
 
@@ -58,6 +70,16 @@ const Home = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     console.log("inputField", inputFields);
+
+    const queryParams = [];
+    const history = [];
+    for (let i in inputFields) {
+      queryParams.push("friend=" + encodeURIComponent(inputFields[i].value));
+    }
+    const queryString = queryParams.join("&");
+    history.push(queryString);
+    console.log(token);
+    window.location.href = `http://localhost:8888/match?access_token=${token}&${history}`;
   };
   return (
     <Box
@@ -82,7 +104,6 @@ const Home = () => {
                   color="primary"
                   type="submit"
                   size="small"
-                  onSubmit={handleSubmit}
                   endIcon={<ExitToApp />}
                   href=" https://accounts.spotify.com/en/logout"
                 >
@@ -149,7 +170,6 @@ const Home = () => {
                   </Grid>
                 </Fragment>
               ))}
-
               <Grid item xs={12}>
                 <Box>
                   <Button
