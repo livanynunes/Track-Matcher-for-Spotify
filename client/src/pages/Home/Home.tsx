@@ -6,19 +6,58 @@ import {
   TextField,
   Button,
   Box,
+  IconButton,
 } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
+import { Add, Delete, ExitToApp } from "@material-ui/icons";
 const Home = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [addMore, setAddMore] = useState(false);
+  const [inputFields, setInputFields] = useState([
+    { value: "", selected: false },
+  ]);
 
-  const handleAddFriends = () => {
-    console.log(addMore);
-    if (!addMore) {
-      setAddMore(true);
-    } else {
-      setAddMore(false);
+  const handleAddFields = () => {
+    const values = [...inputFields];
+
+    values.push({ value: "", selected: false });
+
+    setInputFields(values);
+  };
+
+  const handleRemoveField = (index: any) => {
+    const values = [...inputFields];
+
+    values.splice(index, 1);
+    setInputFields(values);
+  };
+
+  const handleInputChange = (
+    index: any,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const values = [...inputFields];
+
+    if (event.target.name === "friendUri") {
+      values[index].value = event.target.value;
     }
+
+    // event.target.onb
+    setInputFields(values);
+  };
+
+  const showRemoveButton = (index: any) => {
+    const values = [...inputFields];
+    values[index].selected = true;
+    setInputFields(values);
+  };
+
+  const hideRemoveButton = (index: any) => {
+    const values = [...inputFields];
+    values[index].selected = false;
+    setInputFields(values);
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    console.log("inputField", inputFields);
   };
   return (
     <Box
@@ -30,83 +69,117 @@ const Home = () => {
     >
       <Paper style={{ padding: 20, maxWidth: 700 }}>
         <Grid container spacing={2}>
+          <Grid container>
+            <Grid item xs={10}>
+              <Typography variant="h4" color="primary" paragraph={true}>
+                Track Matcher for Spotify
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Box display="flex" justifyContent="flex-end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  size="small"
+                  onSubmit={handleSubmit}
+                  endIcon={<ExitToApp />}
+                  href=" https://accounts.spotify.com/en/logout"
+                >
+                  Logout
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
           <Grid item xs={12}>
-            <Typography variant="h4" color="primary" paragraph={true}>
-              Track Matcher for Spotify
-            </Typography>
             <Typography variant="subtitle2" color="secondary" paragraph={true}>
               This is a tool for finding songs that you share with someone
               through your public playlists. The app needs Spotify permissions
               so that it can create the playlist. You can find an user’s URI
               through the sharing options on their profile page.
             </Typography>
-            <Typography variant="subtitle2" color="secondary">
+            <Typography variant="subtitle2" paragraph={true} color="secondary">
               When matching with multiple users, you can define the minimum
               number of occurences between them (e.g. only 2 occurences of the
               same song needed between me and 4 friends).
             </Typography>
           </Grid>
-          {isLoggedIn ? (
-            <Fragment>
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="body1" color="secondary">
+                <Typography variant="body1" paragraph={true} color="secondary">
                   Add your friends here:
                 </Typography>
               </Grid>
 
+              {inputFields.map((inputFields, index) => (
+                <Fragment key={`${inputFields}~${index}`}>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      id="friendUri"
+                      name="friendUri"
+                      value={inputFields.value}
+                      label="Spotify URI"
+                      placeholder="e.g. spotify:user:0394820913"
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      onFocus={() => showRemoveButton(index)}
+                      onBlur={() => hideRemoveButton(index)}
+                      onChange={(event: any) => handleInputChange(index, event)}
+                      InputProps={
+                        inputFields.selected
+                          ? {
+                              endAdornment: (
+                                <IconButton
+                                  onMouseDown={() => {
+                                    handleRemoveField(index);
+                                  }}
+                                >
+                                  <Delete fontSize="small" />
+                                </IconButton>
+                              ),
+                            }
+                          : {
+                              endAdornment: <></>,
+                            }
+                      }
+                    />
+                  </Grid>
+                </Fragment>
+              ))}
+
               <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="friend1"
-                  label="Spotify URI"
-                  placeholder="e.g. spotify:user:0394820913"
-                  variant="outlined"
-                  color="primary"
-                  size="small"
-                />
-              </Grid>
-              {addMore && (
-                <Grid item xs={12}>
-                  <TextField
+                <Box>
+                  <Button
+                    variant="contained"
                     fullWidth
-                    id="friend1"
-                    label="Spotify URI"
-                    placeholder="e.g. spotify:user:0394820913"
-                    variant="outlined"
-                    color="primary"
+                    color="inherit"
                     size="small"
-                  />
-                </Grid>
-              )}
-              <Grid item xs={12}>
-                <Button
-                  variant="contained"
-                  fullWidth
-                  color="inherit"
-                  size="small"
-                  endIcon={<Add />}
-                  onClick={handleAddFriends}
-                >
-                  Add friend
-                </Button>
+                    endIcon={<Add />}
+                    onClick={() => {
+                      handleAddFields();
+                    }}
+                  >
+                    Add friend
+                  </Button>
+                </Box>
               </Grid>
               <Grid item xs={12}>
-                <Box display="flex" justifyContent="flex-end">
-                  <Button variant="contained" color="secondary">
+                <Box display="flex" justifyContent="flex-end" marginTop={2}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    type="submit"
+                    onSubmit={handleSubmit}
+                  >
                     Match!
                   </Button>
                 </Box>
               </Grid>
-            </Fragment>
-          ) : (
-            <Grid item xs={12}>
-              <Box display="flex" justifyContent="center">
-                <Button variant="contained" color="primary">
-                  Login in Spotify
-                </Button>
-              </Box>
             </Grid>
-          )}
+          </form>
         </Grid>
       </Paper>
     </Box>
