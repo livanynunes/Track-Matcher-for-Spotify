@@ -8,9 +8,8 @@ import {
   Box,
   IconButton,
 } from "@material-ui/core";
-import { Add, RemoveCircle, Delete } from "@material-ui/icons";
+import { Add, Delete, ExitToApp } from "@material-ui/icons";
 const Home = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [inputFields, setInputFields] = useState([
     { value: "", selected: false },
   ]);
@@ -70,10 +69,29 @@ const Home = () => {
     >
       <Paper style={{ padding: 20, maxWidth: 700 }}>
         <Grid container spacing={2}>
+          <Grid container>
+            <Grid item xs={10}>
+              <Typography variant="h4" color="primary" paragraph={true}>
+                Track Matcher for Spotify
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Box display="flex" justifyContent="flex-end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  size="small"
+                  onSubmit={handleSubmit}
+                  endIcon={<ExitToApp />}
+                  href=" https://accounts.spotify.com/en/logout"
+                >
+                  Logout
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
           <Grid item xs={12}>
-            <Typography variant="h4" color="primary" paragraph={true}>
-              Track Matcher for Spotify
-            </Typography>
             <Typography variant="subtitle2" color="secondary" paragraph={true}>
               This is a tool for finding songs that you share with someone
               through your public playlists. The app needs Spotify permissions
