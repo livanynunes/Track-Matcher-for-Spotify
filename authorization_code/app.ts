@@ -90,7 +90,7 @@ app.get("/callback", function (req, res) {
       headers: {
         Authorization:
           "Basic " +
-          new Buffer.from(client_id + ":" + client_secret).toString("base64"),
+          Buffer.from(client_id + ":" + client_secret).toString("base64"),
       },
       json: true,
     };
@@ -102,7 +102,7 @@ app.get("/callback", function (req, res) {
 
         // we can also pass the token to the browser to make requests from there
         res.redirect(
-          "http://localhost:3000/home" +
+          "http://localhost:3000/home?" +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token,

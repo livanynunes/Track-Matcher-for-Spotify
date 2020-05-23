@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch } from "react-router-dom";
-import Route from "./Routes";
+import { RouteWrapper } from "./Routes";
 
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
@@ -8,9 +8,9 @@ import { Login } from "../pages/Login";
 export default function Routes() {
   return (
     <Switch>
-      <Route path="/" exact component={Login} />
-      <Route path="/home" exact component={Home} isPrivate />
-      <Route component={Login} />
+      <RouteWrapper path="/" exact component={Login} />
+      <RouteWrapper path="/home" component={Home} isPrivate />
+      <RouteWrapper component={Login} />
     </Switch>
   );
 }

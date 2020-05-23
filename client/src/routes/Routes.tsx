@@ -6,36 +6,41 @@ interface IRouteWrapper extends RouteProps {
   isPrivate: boolean;
 }
 
-export default function RouteWrapper({
+function getUrlParams(search: string): any {
+  let hashes = search.slice(search.indexOf("?") + 1).split("&");
+  return hashes.reduce((params, hash) => {
+    let [key, val] = hash.split("=");
+    return Object.assign(params, { [key]: decodeURIComponent(val) });
+  }, {});
+}
+
+// console.log(getUrlParams(window.location.search));
+
+const params = getUrlParams(window.location.search);
+const token = params.access_token;
+
+export const RouteWrapper = ({
   component: Component,
   isPrivate,
   ...rest
-}: IRouteWrapper) {
-  const loggedIn = true;
+}: IRouteWrapper) => {
+  let isLoggedIn;
 
-  /**
-   * Redirect user to SignIn page if he tries to access a private      route
-   * without authentication.
-   */
+  isLoggedIn = token ? true : false;
 
-  if (isPrivate && !loggedIn) {
+  console.log(`isloggedin:${isLoggedIn}`);
+  console.log(`token:${token}`);
+
+  if (isPrivate && !isLoggedIn) {
     return <Redirect to="/" />;
   }
-  /**
-   * Redirect user to Main page if he tries to access a non private route
-   * (SignIn or SignUp) after being authenticated.
-   */
 
-  if (!isPrivate && loggedIn) {
+  if (!isPrivate && isLoggedIn) {
     return <Redirect to="/home" />;
   }
 
-  /**
-   * If not included on both previous cases, redirect user to the desired route.
-   */
-
   return <Route {...rest} component={Component} />;
-}
+};
 
 RouteWrapper.propTypes = {
   isPrivate: PropTypes.bool,
