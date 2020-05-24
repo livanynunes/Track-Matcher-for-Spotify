@@ -1,11 +1,10 @@
-import { Home } from "./../client/src/pages/Home";
 var express = require("express"); // Express web server framework
 var request = require("request"); // "Request" library
 var cors = require("cors");
 var querystring = require("querystring");
 var cookieParser = require("cookie-parser");
 
-var matching = require("./Matching.ts");
+var matching = require("./public/Matching.js");
 
 var client_id = "1baad1a07930418ea6605b19788c1436"; // Your client id
 var client_secret = "24f2102e552e49348d13d263c8e4fb27"; // Your secret
@@ -28,11 +27,15 @@ var generateRandomString = function (length) {
 };
 
 function profileUriToId(uris) {
-  var ids = [];
-  for (const item of uris) {
-    ids.push(item.split("spotify:user:")[1]);
+  if (uris instanceof Array) {
+    var ids = [];
+    for (const item of uris) {
+      ids.push(item.split("spotify:user:")[1]);
+    }
+    return ids;
+  } else {
+    return [uris.split("spotify:user:")[1]];
   }
-  return ids;
 }
 
 var stateKey = "spotify_auth_state";
@@ -123,20 +126,20 @@ app.get("/callback", function (req, res) {
 
 app.get("/match", async function (req, res) {
   try {
-    var accessToken = req.query.access_token;
-    let friends = req.query.friend;
-    console.log(friends);
-    console.log(accessToken);
-    var usersToMatch = friends;
-    var minimumOccurences = 2;
-    usersToMatch = profileUriToId(usersToMatch);
-    console.log(usersToMatch);
-    var playlistId = await matching.match(
+    const accessToken = req.query.access_token;
+    const minimumOccurences = 2;
+    const usersToMatch = profileUriToId(req.query.friend);
+    const playlistId = await matching.match(
       accessToken,
       usersToMatch,
       minimumOccurences
     );
-    res.redirect(`http://localhost:3000/final`);
+    res.redirect(
+      "http://localhost:3000/final?" +
+        querystring.stringify({
+          playlist_id: playlistId,
+        })
+    );
   } catch (err) {
     console.log("Ocorreu um erro ao dar match!");
   }

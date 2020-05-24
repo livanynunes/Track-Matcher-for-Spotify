@@ -1,17 +1,12 @@
 class Matching {
-  accessToken: string;
-  minimumOccurences: number;
-  rp: any;
-  myId: any;
-  usersToMatch: any;
-  tracks: any[];
-  playlistId: string;
   async init(accessToken, usersToMatch) {
+    this.tracks = [];
     this.minimumOccurences = 2;
     this.rp = require("request-promise");
     this.accessToken = accessToken;
     this.myId = await this.getMyId();
     this.usersToMatch = usersToMatch;
+    console.log(this.usersToMatch);
     usersToMatch.push(this.myId);
     this.tracks = await this.doTheMatch();
     this.playlistId = await this.createPlaylist();

@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "concurrently --kill-others \"cd ./authorization_code && yarn start\" \"cd ./client && yarn start\"",
+    "build": "(cd ./authorization_code && yarn) & (cd ../client && yarn)"
+  },
+  "dependencies": {
+    "concurrently": "^5.2.0"
+  }
+}
