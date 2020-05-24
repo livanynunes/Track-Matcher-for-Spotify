@@ -6,6 +6,8 @@ var cookieParser = require("cookie-parser");
 
 var matching = require("./public/Matching.js");
 
+require("dotenv").config();
+
 // Environment variables
 const port = process.env.PORT;
 const public_url = process.env.PUBLIC_URL;

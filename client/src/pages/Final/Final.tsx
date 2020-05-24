@@ -1,10 +1,16 @@
 import React from "react";
-import { Box, Paper, Grid, Typography, Button } from "@material-ui/core";
-import firstStep from "../../assets/img/passOne.png";
-import { useParams } from "react-router-dom";
-const Final = () => {
-  let { id } = useParams();
-  console.log(id);
+import {
+  Box,
+  Paper,
+  Grid,
+  Typography,
+  Button,
+  CardMedia,
+} from "@material-ui/core";
+
+const Final = (props: any) => {
+  const { location } = props;
+  console.log(location.search.split("?playlist_id=")[1]);
   return (
     <Box
       component="div"
@@ -19,7 +25,7 @@ const Final = () => {
             <Box display="flex" justifyContent="center">
               <Typography variant="h4" color="primary" paragraph={true}>
                 Track Matcher for Spotify
-              </Typography>{" "}
+              </Typography>
             </Box>
           </Grid>
           <Grid item xs={12}>
@@ -29,20 +35,28 @@ const Final = () => {
                 color="secondary"
                 paragraph={true}
               >
-                The playlist was created successfully!
+                The playlist was created successfully and is now on your
+                account!
               </Typography>
             </Box>
           </Grid>
 
           <Grid item xs={12}>
             <Box display="flex" justifyContent="center">
-              To enjoy it, open your Spotify and click on the playlist named
-              "Matched".
+              <CardMedia
+                component="iframe"
+                src={`https://open.spotify.com/embed/playlist/${
+                  location.search.split("?playlist_id=")[1]
+                }`}
+                height="400"
+                style={{ border: 0 }}
+              />
             </Box>
           </Grid>
           <Grid item xs={12}>
             <Box display="flex" justifyContent="center">
-              <img src={firstStep} width={200} />
+              To enjoy it, open your Spotify and click on the playlist named
+              "Matched".
             </Box>
           </Grid>
           <Grid item xs={12}>
