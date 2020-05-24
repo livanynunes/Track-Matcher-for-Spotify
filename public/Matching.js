@@ -6,7 +6,6 @@ class Matching {
     this.accessToken = accessToken;
     this.myId = await this.getMyId();
     this.usersToMatch = usersToMatch;
-    console.log(this.usersToMatch);
     usersToMatch.push(this.myId);
     this.tracks = await this.doTheMatch();
     this.playlistId = await this.createPlaylist();

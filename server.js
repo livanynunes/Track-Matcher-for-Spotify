@@ -6,9 +6,13 @@ var cookieParser = require("cookie-parser");
 
 var matching = require("./public/Matching.js");
 
-var client_id = "1baad1a07930418ea6605b19788c1436"; // Your client id
-var client_secret = "24f2102e552e49348d13d263c8e4fb27"; // Your secret
-var redirect_uri = "http://localhost:8888/callback"; // Your redirect uri
+// Environment variables
+const port = process.env.PORT;
+const public_url = process.env.PUBLIC_URL;
+const app_url = process.env.APP_URL;
+const client_id = process.env.CLIENT_ID; // Your client id
+const client_secret = process.env.CLIENT_SECRET; // Your secret
+const redirect_uri = `${app_url}/callback`; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -106,7 +110,7 @@ app.get("/callback", function (req, res) {
 
         // we can also pass the token to the browser to make requests from there
         res.redirect(
-          "http://localhost:3000/home?" +
+          `${public_url}/home?` +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token,
@@ -135,7 +139,7 @@ app.get("/match", async function (req, res) {
       minimumOccurences
     );
     res.redirect(
-      "http://localhost:3000/final?" +
+      `${public_url}/final?` +
         querystring.stringify({
           playlist_id: playlistId,
         })
@@ -145,5 +149,5 @@ app.get("/match", async function (req, res) {
   }
 });
 
-console.log("Listening on 8888");
-app.listen(8888);
+console.log(`Listening on ${port}`);
+app.listen(port);
