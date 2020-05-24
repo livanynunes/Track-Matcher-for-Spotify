@@ -11,7 +11,7 @@ require("dotenv").config();
 // Environment variables
 const port = process.env.PORT;
 const public_url = process.env.PUBLIC_URL;
-const app_url = process.env.APP_URL;
+const app_url = `${process.env.APP_URL}:${port}`;
 const client_id = process.env.CLIENT_ID; // Your client id
 const client_secret = process.env.CLIENT_SECRET; // Your secret
 const redirect_uri = `${app_url}/callback`; // Your redirect uri
